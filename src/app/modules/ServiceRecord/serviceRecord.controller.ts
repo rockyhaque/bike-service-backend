@@ -3,7 +3,6 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import { ServiceRecordService } from "./serviceRecord.service";
 
-
 const createService = catchAsync(async (req, res) => {
   const result = await ServiceRecordService.createService(req.body);
   sendResponse(res, {
@@ -25,7 +24,7 @@ const getAllServices = catchAsync(async (req, res) => {
 });
 
 const getSingleService = catchAsync(async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const result = await ServiceRecordService.getSingleService(id);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -36,7 +35,7 @@ const getSingleService = catchAsync(async (req, res) => {
 });
 
 const updateService = catchAsync(async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
 
   // Fallback to empty object if body is undefined
   const result = await ServiceRecordService.updateService(id, req.body || {});
@@ -48,9 +47,20 @@ const updateService = catchAsync(async (req, res) => {
   });
 });
 
+const getPendingOrOverdueService = catchAsync(async (req, res) => {
+  const result = await ServiceRecordService.getPendingOrOverdueService();
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "Overdue or pending services fetched successfully",
+    data: result,
+  });
+});
+
 export const ServiceRecordController = {
   createService,
   getAllServices,
   getSingleService,
-  updateService
+  updateService,
+  getPendingOrOverdueService,
 };

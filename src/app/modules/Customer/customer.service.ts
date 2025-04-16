@@ -5,6 +5,18 @@ import { AppError } from "../../utils/AppError";
 import { StatusCodes } from "http-status-codes";
 
 const createCustomer = async (payload: ICustomer) => {
+  // Check if email already exists
+  const exists = await prisma.customer.findUnique({
+    where: {
+      email: payload.email,
+    },
+    select: { email: true },
+  });
+
+  if (exists) {
+    throw new AppError("Email already exists", StatusCodes.CONFLICT);
+  }
+
   const result = await prisma.customer.create({
     data: {
       name: payload.name,

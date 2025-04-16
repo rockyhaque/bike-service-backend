@@ -3,6 +3,7 @@ import { ServiceRecordController } from "./serviceRecord.controller";
 
 const router = express.Router();
 
+router.get("/status", ServiceRecordController.getPendingOrOverdueService);
 router.post("/", ServiceRecordController.createService);
 router.get("/", ServiceRecordController.getAllServices);
 router.get("/:id", ServiceRecordController.getSingleService);
