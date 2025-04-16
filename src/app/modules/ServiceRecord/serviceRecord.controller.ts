@@ -35,8 +35,20 @@ const getSingleService = catchAsync(async (req, res) => {
   });
 });
 
+const updateService = catchAsync(async (req, res) => {
+  const {id} = req.params;
+  const result = await ServiceRecordService.updateService(id, req.body);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "Service marked as completed",
+    data: result,
+  });
+});
+
 export const ServiceRecordController = {
   createService,
   getAllServices,
-  getSingleService
+  getSingleService,
+  updateService
 };
