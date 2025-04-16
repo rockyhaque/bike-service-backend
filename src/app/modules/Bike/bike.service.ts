@@ -1,5 +1,7 @@
+import { StatusCodes } from "http-status-codes";
 import prisma from "../../../shared/prisma";
 import { IBike } from "./bike.interface";
+import { AppError } from "../../utils/AppError";
 
 const createBike = async (payload: IBike) => {
   const result = await prisma.bike.create({
@@ -32,7 +34,7 @@ const getSingleBike = async (id: string) => {
   });
 
   if (!exists) {
-    throw new Error(`Bike with ID ${id} does not exist.`);
+    throw new AppError("Bike not found", StatusCodes.NOT_FOUND);
   }
 
   //   final fetch

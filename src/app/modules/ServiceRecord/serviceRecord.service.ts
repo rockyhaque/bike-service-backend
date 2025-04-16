@@ -1,6 +1,8 @@
 import { ServiceRecord, ServiceStatus } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 import { IService } from "./serviceRecord.interface";
+import { AppError } from "../../utils/AppError";
+import { StatusCodes } from "http-status-codes";
 
 const createService = async (payload: IService) => {
   const result = await prisma.serviceRecord.create({
@@ -33,7 +35,7 @@ const getSingleService = async (id: string) => {
   });
 
   if (!exists) {
-    throw new Error(`Service with ID ${id} does not exist.`);
+    throw new AppError("Service not found", StatusCodes.NOT_FOUND);
   }
 
   //   final fetch
@@ -55,17 +57,19 @@ const updateService = async (id: string, payload: Partial<ServiceRecord>) => {
   });
 
   if (!exists) {
-    throw new Error(`Service with ID ${id} does not exist.`);
+    throw new AppError("Service not found", StatusCodes.NOT_FOUND);
   }
 
-  //   update
+  // Default to now if no custom completionDate provided
+  const completionDate = payload.completionDate ?? new Date();
+
   const result = await prisma.serviceRecord.update({
     where: {
       serviceId: id,
     },
     data: {
       status: ServiceStatus.done,
-      ...payload,
+      completionDate,
     },
   });
   return result;

@@ -1,6 +1,8 @@
 import { Customer } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 import { ICustomer } from "./customer.interface";
+import { AppError } from "../../utils/AppError";
+import { StatusCodes } from "http-status-codes";
 
 const createCustomer = async (payload: ICustomer) => {
   const result = await prisma.customer.create({
@@ -32,7 +34,7 @@ const getSingleCustomer = async (id: string) => {
   });
 
   if (!exists) {
-    throw new Error(`Customer with ID ${id} does not exist.`);
+    throw new AppError("Customer not found", StatusCodes.NOT_FOUND);
   }
 
   //   final fetch
@@ -54,7 +56,7 @@ const updateCustomer = async (id: string, payload: Partial<Customer>) => {
   });
 
   if (!exists) {
-    throw new Error(`Customer with ID ${id} does not exist.`);
+    throw new AppError("Customer not found", StatusCodes.NOT_FOUND);
   }
 
   //   update
@@ -77,7 +79,7 @@ const deleteCustomer = async (id: string) => {
   });
 
   if (!exists) {
-    throw new Error(`Customer with ID ${id} does not exist.`);
+    throw new AppError("Customer not found", StatusCodes.NOT_FOUND);
   }
 
   //   delete

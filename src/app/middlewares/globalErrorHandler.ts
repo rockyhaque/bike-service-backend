@@ -7,10 +7,13 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+  const statusCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
+  res.status(statusCode).json({
     success: false,
+    status: statusCode,
     message: error?.message || "Something went wrong!",
-    error: error,
+    ...(process.env.NODE_ENV === "development" && { stack: error?.stack }),
+    // error: error,
   });
 };
 

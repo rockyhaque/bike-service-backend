@@ -37,7 +37,9 @@ const getSingleService = catchAsync(async (req, res) => {
 
 const updateService = catchAsync(async (req, res) => {
   const {id} = req.params;
-  const result = await ServiceRecordService.updateService(id, req.body);
+
+  // Fallback to empty object if body is undefined
+  const result = await ServiceRecordService.updateService(id, req.body || {});
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
