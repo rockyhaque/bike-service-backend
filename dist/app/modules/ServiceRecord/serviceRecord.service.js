@@ -89,9 +89,9 @@ const getPendingOrOverdueService = () => __awaiter(void 0, void 0, void 0, funct
                 in: [client_1.ServiceStatus.pending, client_1.ServiceStatus.in_progress],
             },
             serviceDate: {
-                lt: sevenDaysAgo
-            }
-        }
+                lt: sevenDaysAgo,
+            },
+        },
     });
     return result;
 });
@@ -100,5 +100,5 @@ exports.ServiceRecordService = {
     getAllServices,
     getSingleService,
     updateService,
-    getPendingOrOverdueService
+    getPendingOrOverdueService,
 };
