@@ -169,7 +169,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
@@ -183,12 +183,12 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:12345@localhost:5432/nest_pulse?schema=public"
+        "value": "postgresql://bike_service_user:yndTM2rDzmKPLCdHrrYICPYQaUUWKuUa@dpg-d0040lqli9vc739h9if0-a.virginia-postgres.render.com/bike_service"
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n//---------------------- Customer Table---------------------\n\nmodel Customer {\n  customerId String   @id @default(uuid())\n  name       String\n  email      String   @unique\n  phone      String\n  createdAt  DateTime @default(now())\n  bikes      Bike[]\n\n  @@map(\"customers\")\n}\n\n//---------------------- Bike Table---------------------\nmodel Bike {\n  bikeId     String          @id @default(uuid())\n  brand      String\n  model      String\n  year       Int\n  customerId String\n  customer   Customer        @relation(fields: [customerId], references: [customerId])\n  services   ServiceRecord[]\n\n  @@map(\"bikes\")\n}\n\n//---------------------- Service Record Table---------------------\nmodel ServiceRecord {\n  serviceId      String        @id @default(uuid())\n  bikeId         String\n  bike           Bike          @relation(fields: [bikeId], references: [bikeId])\n  serviceDate    DateTime      @default(now())\n  completionDate DateTime?\n  description    String\n  status         ServiceStatus\n\n  @@map(\"services\")\n}\n\nenum ServiceStatus {\n  pending\n  in_progress\n  done\n}\n",
-  "inlineSchemaHash": "c60f1b9c516a3940562e04ddd86ac8a556c1e170bb4ebc4860105cec192eeb67",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n//---------------------- Customer Table---------------------\n\nmodel Customer {\n  customerId String   @id @default(uuid())\n  name       String\n  email      String   @unique\n  phone      String\n  createdAt  DateTime @default(now())\n  bikes      Bike[]\n\n  @@map(\"customers\")\n}\n\n//---------------------- Bike Table---------------------\nmodel Bike {\n  bikeId     String          @id @default(uuid())\n  brand      String\n  model      String\n  year       Int\n  customerId String\n  customer   Customer        @relation(fields: [customerId], references: [customerId])\n  services   ServiceRecord[]\n\n  @@map(\"bikes\")\n}\n\n//---------------------- Service Record Table---------------------\nmodel ServiceRecord {\n  serviceId      String        @id @default(uuid())\n  bikeId         String\n  bike           Bike          @relation(fields: [bikeId], references: [bikeId])\n  serviceDate    DateTime      @default(now())\n  completionDate DateTime?\n  description    String\n  status         ServiceStatus\n\n  @@map(\"services\")\n}\n\nenum ServiceStatus {\n  pending\n  in_progress\n  done\n}\n",
+  "inlineSchemaHash": "2f2fb9a868fd5a4460e17059f027d3ab88229238ed61a48c4ad419e664c06f2c",
   "copyEngine": true
 }
 
