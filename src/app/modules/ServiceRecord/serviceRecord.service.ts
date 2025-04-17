@@ -75,7 +75,7 @@ const updateService = async (id: string, payload: Partial<ServiceRecord>) => {
   return result;
 };
 
-const getPendingOrOverdueService =  async() => {
+const getPendingOrOverdueService = async () => {
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -85,18 +85,17 @@ const getPendingOrOverdueService =  async() => {
         in: [ServiceStatus.pending, ServiceStatus.in_progress],
       },
       serviceDate: {
-        lt: sevenDaysAgo
-      }
-    }
-  })
-  return result
-
-}
+        lt: sevenDaysAgo,
+      },
+    },
+  });
+  return result;
+};
 
 export const ServiceRecordService = {
   createService,
   getAllServices,
   getSingleService,
   updateService,
-  getPendingOrOverdueService
+  getPendingOrOverdueService,
 };
